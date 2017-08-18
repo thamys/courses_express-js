@@ -2,7 +2,7 @@
   "name": "courses_express-js",
   "version": "1.0.0",
   "description": "Free Weekend Code School Courses - Express.JS",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
