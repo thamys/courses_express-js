@@ -2,6 +2,8 @@ html{
 	background-image: url('blocks.jpg');
 	background-size: cover;
 	color: #fff;
+	font-family: 'Lato', sans-serif;
+	font-weight: 300;
 }
 
 html, body{
@@ -35,7 +37,54 @@ body{
 	padding: 50px 100px;	
 }
 
+h1{
+	font-weight: 900;
+}
+
+form{
+	display: block;
+}
+
+legend{
+	font-weight: 400;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #fff;
+    padding-bottom: 3px;
+    padding-right: 30px;
+}
+
+input:not([type="submit"]){
+	display: block;
+	margin-bottom: 7px;
+    border: none;
+    box-shadow: none;
+    background-color: rgba(255,255,255,0.95);
+    border-radius: 1px;
+    padding: 7px 10px;
+}
+
+input[type="submit"]{
+	background-color: #ffd766;
+    border: none;
+    padding: 9px 15px;
+    border-radius: 1px;
+    width: 100%;
+}
+
+#blocks{
+	margin-top: 20px;
+}
+
 ul{
-	list-style: none;
 	padding: 0;
+	text-align: left;
+	margin-left: 20px;
+}
+
+a{
+	color: #ffd766;
+}
+
+a:hover{
+	color: #2b6fda;
 }
