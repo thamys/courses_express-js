@@ -45,6 +45,13 @@ app.post('/blocks', parseUrlencoded, function(request, response){
 	response.status(201).json(newBlock.name);
 });
 
+app.delete('/blocks/:name', function(request, response){
+	delete blocks[request.blockName];
+	// Se colocar só status, ao invés de sendStatus o jquery não entende e não faz a ação do done.
+	response.sendStatus(200);
+});
+
+
 
 app.get('/blocks/:name', function(request, response){
 	var descripton = blocks[request.blockName];
