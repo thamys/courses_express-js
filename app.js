@@ -12,27 +12,48 @@ var blocks = {
 	'Rotating':'Moving in a circle around its center'
 };
 
+var locations = {
+	'Fixed':'First Floor', 
+	'Movable': 'Second Floor', 
+	'Rotating':'Penthouse'
+};
+
+app.param('name', function(request, response, next){
+	var name = request.params.name;
+	var block =  name[0].toUpperCase() + name.slice(1).toLowerCase();
+
+	request.blockName = block;
+
+	next();
+});
+
 app.get('/blocks', function(request, response){
-	var blocks = ['Fixed', 'Movable', 'Rotating'];
 	if(request.query.limit >= 0){
-		response.json(blocks.slice(0, request.query.limit));
+		response.json(Object.keys(blocks.slice(0, request.query.limit)));
 	} else {
-		response.json(blocks);
+		response.json(Object.keys(blocks));
 	}
 });
 
 
 app.get('/blocks/:name', function(request, response){
-	var name = request.params.name;
-	var block =  name[0].toUpperCase() + name.slice(1).toLowerCase();
-
-	var descripton = blocks[block];
+	var descripton = blocks[request.blockName];
 	if(!descripton){
 		response.status(404).json("No description found for " +request.params.name);
 	} else {
 		response.json(descripton);
 	}
 });
+
+app.get('/locations/:name', function(request, response){
+	var descripton = locations[request.blockName];
+	if(!descripton){
+		response.status(404).json("No description found for " +request.params.name);
+	} else {
+		response.json(descripton);
+	}
+});
+
 
 app.listen(3000, function(){
 	console.log('Listening on port 3000');
