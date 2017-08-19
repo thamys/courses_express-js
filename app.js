@@ -15,12 +15,6 @@ var blocks = {
 	'Rotating':'Moving in a circle around its center'
 };
 
-var locations = {
-	'Fixed':'First Floor', 
-	'Movable': 'Second Floor', 
-	'Rotating':'Penthouse'
-};
-
 app.param('name', function(request, response, next){
 	var name = request.params.name;
 	var block =  name[0].toUpperCase() + name.slice(1).toLowerCase();
@@ -30,47 +24,36 @@ app.param('name', function(request, response, next){
 	next();
 });
 
-app.get('/blocks', function(request, response){
-	if(request.query.limit >= 0){
-		response.json(Object.keys(blocks.slice(0, request.query.limit)));
-	} else {
-		response.json(Object.keys(blocks));
-	}
-});
+app.route('/blocks')
+	.get(function(request, response){
+		if(request.query.limit >= 0){
+			response.json(Object.keys(blocks.slice(0, request.query.limit)));
+		} else {
+			response.json(Object.keys(blocks));
+		}
+	})
+	.post(parseUrlencoded, function(request, response){
+		var newBlock = request.body;
+		blocks[newBlock.name] = newBlock.description;
 
-app.post('/blocks', parseUrlencoded, function(request, response){
-	var newBlock = request.body;
-	blocks[newBlock.name] = newBlock.description;
+		response.status(201).json(newBlock.name);
+	});
 
-	response.status(201).json(newBlock.name);
-});
-
-app.delete('/blocks/:name', function(request, response){
-	delete blocks[request.blockName];
-	// Se colocar só status, ao invés de sendStatus o jquery não entende e não faz a ação do done.
-	response.sendStatus(200);
-});
-
-
-
-app.get('/blocks/:name', function(request, response){
-	var descripton = blocks[request.blockName];
-	if(!descripton){
-		response.status(404).json("No description found for " +request.params.name);
-	} else {
-		response.json(descripton);
-	}
-});
-
-app.get('/locations/:name', function(request, response){
-	var descripton = locations[request.blockName];
-	if(!descripton){
-		response.status(404).json("No description found for " +request.params.name);
-	} else {
-		response.json(descripton);
-	}
-});
-
+app.route('/blocks/:name')
+	.delete(function(request, response){
+		delete blocks[request.blockName];
+		// Se colocar só status, ao invés de sendStatus o jquery não entende e não faz a ação do done.
+		response.sendStatus(200);
+	})
+	.get(function(request, response){
+		var descripton = blocks[request.blockName];
+		if(!descripton){
+			response.status(404).json("No description found for " +request.params.name);
+		} else {
+			response.json(descripton);
+		}
+	});
+	
 
 app.listen(3000, function(){
 	console.log('Listening on port 3000');
